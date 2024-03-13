@@ -1,5 +1,6 @@
 package com.example.demo.model.entity;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 
@@ -19,18 +20,6 @@ public class Role {
     @Column(name = "role_name")
     private RoleType roleName;
 
-    @OneToMany(mappedBy = "role")
-    private Set<Users> users;
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     public enum RoleType {
         ROLE_ADMIN(1),
         ROLE_USER(2);
@@ -47,11 +36,11 @@ public class Role {
     }
     // Constructors, getters, and setters
 
+    public void setId(Long id) {this.id = id;}
+
     public String getRoleName() {
         return roleName.name();
     }
-
-
     public void setRoleName(RoleType roleName) {
         this.roleName = roleName;
     }

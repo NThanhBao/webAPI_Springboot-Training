@@ -1,12 +1,13 @@
 package com.example.demo.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Data
 public class Users {
 
     @Id
@@ -25,31 +26,5 @@ public class Users {
     private Role role;
 
 
-    // Constructors, getters, and setters
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    // Constructors, getters, setters và các phương thức khác
 }
-

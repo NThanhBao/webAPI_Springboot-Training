@@ -58,6 +58,11 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public Users save(UserDTO user) {
+        // Kiểm tra xem username đã tồn tại hay chưa
+        if (userDao.findByUsername(user.getUsername()) != null) {
+            // Nếu đã tồn tại, ném một ngoại lệ hoặc trả về một thông báo lỗi
+            throw new RuntimeException("Username đã tồn tại");
+        }
 
         Users newUser = new Users();
         Role role = roleRepo.findById(user.getRoleId()).orElse(null);
@@ -65,6 +70,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
         newUser.setRole(role);
+
         return userDao.save(newUser);
     }
 }
