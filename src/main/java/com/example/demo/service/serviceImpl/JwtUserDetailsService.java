@@ -1,6 +1,7 @@
 package com.example.demo.service.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.demo.model.DTO.UserDTO;
 import com.example.demo.model.entity.Role;
@@ -8,6 +9,8 @@ import com.example.demo.model.entity.Users;
 import com.example.demo.repositories.RoleRepo;
 import com.example.demo.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,9 +44,17 @@ public class JwtUserDetailsService implements UserDetailsService {
         Users user = userDao.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
+
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                new ArrayList<>());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        // Add roles to authorities
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleName()));
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                authorities
+        );
     }
 
     public Users save(UserDTO user) {
