@@ -3,7 +3,9 @@ package com.example.demo.service.serviceImpl;
 import java.util.ArrayList;
 
 import com.example.demo.model.DTO.UserDTO;
+import com.example.demo.model.entity.Role;
 import com.example.demo.model.entity.Users;
+import com.example.demo.repositories.RoleRepo;
 import com.example.demo.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +31,9 @@ public class JwtUserDetailsService implements UserDetailsService {
     private UserDao userDao;
 
     @Autowired
+    RoleRepo roleRepo;
+
+    @Autowired
     private PasswordEncoder bcryptEncoder;
 
     @Override
@@ -42,9 +47,13 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public Users save(UserDTO user) {
+
         Users newUser = new Users();
+        Role role = roleRepo.findById(user.getRoleId()).orElse(null);
+
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+        newUser.setRole(role);
         return userDao.save(newUser);
     }
 }
