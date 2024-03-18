@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/authenticate", "/register").permitAll()
                 // Only allow admin to access endpoints for adding products
-                .antMatchers("/api/v1/product").hasRole("ADMIN")
+               // .antMatchers("/api/v1/product").hasRole("ADMIN")
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and()
                 // make sure we use stateless session; session won't be used to

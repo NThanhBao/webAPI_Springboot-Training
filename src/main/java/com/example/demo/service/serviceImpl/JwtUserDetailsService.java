@@ -17,16 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/*
-JWTUserDetailsService implements the Spring Security UserDetailsService interface.
-It overrides the loadUserByUsername for fetching user details from the database using the username.
-The Spring Security Authentication Manager calls this method for getting the user details from the database
-when authenticating the user details provided by the user. Here we are getting the user details from a hardcoded
-User List. In the next tutorial we will be adding the DAO implementation for fetching User Details from the Database.
-Also the password for a user is stored in encrypted format using BCrypt.
-Previously we have seen Spring Boot Security - Password Encoding Using Bcrypt.
-Here using the Online Bcrypt Generator you can generate the Bcrypt for a password.
- */
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
@@ -44,7 +34,6 @@ public class JwtUserDetailsService implements UserDetailsService {
         Users user = userDao.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
-
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -69,6 +58,14 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+        newUser.setEmail(user.getEmail());
+//        newUser.setPhone(user.getPhone());
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setGender(user.getGender());
+        newUser.setBirthDay(user.getBirthDay());
+        newUser.setAdress(user.getAdress());
+        newUser.setJob(user.getJob());
         newUser.setRole(role);
 
         return userDao.save(newUser);

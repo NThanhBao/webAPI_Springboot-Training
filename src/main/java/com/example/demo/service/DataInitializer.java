@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 @Component
 public class DataInitializer {
@@ -61,6 +64,19 @@ public class DataInitializer {
             adminUser.setUsername(adminUsername);
             adminUser.setPassword(bcryptEncoder.encode("admin")); // Thay đổi thành mật khẩu thực tế
             adminUser.setRole(adminRole);
+            adminUser.setEmail("ntb09109@gmail.com");
+            adminUser.setAdress("Quy Nhơn");
+            adminUser.setPhone("090197682");
+            adminUser.setFirstName("Nguyễn");
+            adminUser.setLastName("Thanh Bảo");
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(2002, Calendar.NOVEMBER, 25);
+            Date birthDay = calendar.getTime();
+            adminUser.setBirthDay(birthDay);
+
+            adminUser.setGender("Nam");
+            adminUser.setJob("intern");
             userDao.save(adminUser);
         }
     }
